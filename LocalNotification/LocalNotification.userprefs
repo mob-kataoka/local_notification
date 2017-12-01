@@ -1,0 +1,17 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Plugins/Sample.cs">
+    <Files>
+      <File FileName="Assets/Plugins/Sample.cs" Line="39" Column="2" />
+      <File FileName="Assets/Plugins/Android/AndroidManifest.xml" Line="1" Column="1" />
+      <File FileName="Assets/Plugins/LocalNotification.cs" Line="21" Column="1" />
+      <File FileName="Assets/Main.cs" Line="31" Column="69" />
+      <File FileName="Assets/Plugins/SampleClientObject.cs" Line="59" Column="14" NotebookId="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+</Properties>
