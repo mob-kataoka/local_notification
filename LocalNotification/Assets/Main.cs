@@ -4,41 +4,28 @@ using UnityEngine;
 
 public class Main : MonoBehaviour
 {
+	private LocalNotificationPlugin plugin;
 
-	[SerializeField]
-	private SampleClientObject sampleClientObject;
+	private int id = 0;
 
-	iOSTest.LocalNotification iLN;
 
 	// Use this for initialization
 	void Start ()
 	{
-#if UNITY_IOS
-		iLN = new iOSTest.LocalNotification ();
-		iLN.Initialize ();
-#else
-		sampleClientObject.Initialize ();
-#endif
+		id = 0;
+
+		LocalNotificationPlugin.Init ();
 	}
 
-	private int nId = 0;
 	public void SetLocalNotification ()
 	{
-		nId++;
-#if UNITY_IOS
-		iLN.Add ("ほげほげ", "ほげほげほげりんこ");
-#else
-		sampleClientObject.SetLocalNotificationInterval (nId, "てすと " + nId, "ほんぶん", 10);
-#endif
+		id++;
+
+		LocalNotificationPlugin.Add (id, "通知タイトル " + id, "通知本文", 15);
 	}
 
 	public void CancelNotification()
 	{
-		sampleClientObject.CancelLocalNotification (nId);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+		LocalNotificationPlugin.Remove (id);
 	}
 }

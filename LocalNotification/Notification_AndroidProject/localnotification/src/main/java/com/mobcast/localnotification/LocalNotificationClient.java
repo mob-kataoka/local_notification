@@ -16,15 +16,9 @@ import java.util.Calendar;
 
 public class LocalNotificationClient {
     private  static  final  String TAG = LocalNotificationClient.class.getSimpleName();
-    private String objectName = "";
     public LocalNotificationClient(){}
 
-    public void Init(final String gameObjectName)
-    {
-        objectName = gameObjectName;
-    }
-
-    public void SetLocalNotification(int notificationId, String title, String message, int secAfter)
+    public void AddLocalNotification(int notificationId, String title, String message, int interval)
     {
         Context context = UnityPlayer.currentActivity.getApplicationContext();
 
@@ -37,13 +31,15 @@ public class LocalNotificationClient {
 
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(System.currentTimeMillis());
-        cal.add(Calendar.SECOND, secAfter);
+        cal.add(Calendar.SECOND, interval);
 
         AlarmManager alarm = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         alarm.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), sender);
+
+        Log.d(TAG, "AddLocalNotification " + notificationId + title + message);
     }
 
-    public void CancelLocalNotification(int notificationId)
+    public void RemovePendingLocalNotification(int notificationId)
     {
         Context context = UnityPlayer.currentActivity.getApplicationContext();
 
@@ -52,5 +48,7 @@ public class LocalNotificationClient {
 
         AlarmManager alarm = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         alarm.cancel(pendingIntent);
+
+        Log.d(TAG, "RemovePendingLocalNotification " + notificationId);
     }
 }

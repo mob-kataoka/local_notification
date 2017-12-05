@@ -4,8 +4,8 @@
 
 extern "C" {
     void Initialize();
-    void SetLocalNotification(int* notificationId, char* title, char* msg, int interval);
-    void RemovePendingLocalNotification(int* notificationId);
+    void AddLocalNotification(int notificationId, char *title, char *msg, int interval);
+    void RemovePendingLocalNotification(int notificationId);
     void ClearLocalNotification();
 }
 
@@ -20,18 +20,15 @@ void Initialize()
         // 設定ダイアログ.
         [[UIApplication sharedApplication] registerUserNotificationSettings:setting];
     }
-    
-//    [[UNUserNotificationCenter defaultCenter] addObserver:self selector:@selector(SetIconBadgeNumber) name:UIApplicationDidBecomeActiveNotification object:nil];
-    
 }
 
 // ローカル通知登録.
-void SetLocalNotification(int* notificationId, char* title, char* msg, int interval)
+void AddLocalNotification(int notificationId, char *title, char *msg, int interval)
 {
     // タイトルとメッセージをStringに変換.
     NSString *str_title = [NSString stringWithCString: title encoding:NSUTF8StringEncoding];
     NSString *str_msg   = [NSString stringWithCString: msg encoding:NSUTF8StringEncoding];
-    NSString *str_id    = [NSString stringWithCString: notificationId];
+    NSString *str_id    = [NSString stringWithFormat: @"%d", notificationId];
     
     // iOS10以上であれば、UILocalNotificationを使わない.
     if ( floor(NSFoundationVersionNumber) >= NSFoundationVersionNumber10_0 )
@@ -42,7 +39,7 @@ void SetLocalNotification(int* notificationId, char* title, char* msg, int inter
         objNotificationContent.body     = str_msg;
         objNotificationContent.title    = str_title;
         // アイコンにつくバッジ数を設定.
-//        objNotificationContent.badge    = @([[UIApplication sharedApplication] applicationIconBadgeNumber] + 1);
+        //        objNotificationContent.badge    = @([[UIApplication sharedApplication] applicationIconBadgeNumber] + 1);
         objNotificationContent.badge     = 0;
         // 表示する日時を設定.
         UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:interval repeats:NO];
@@ -80,13 +77,13 @@ void SetLocalNotification(int* notificationId, char* title, char* msg, int inter
 }
 
 // 指定IDの通知を削除.
-void RemovePendingLocalNotification(char* notificationId)
+void RemovePendingLocalNotification(int notificationId)
 {
-    NSString* str_id = [NSString stringWithCString:notificationId];
+    NSString *str_id    = [NSString stringWithFormat: @"%d", notificationId];
     
     if( floor(NSFoundationVersionNumber) >= NSFoundationVersionNumber10_0 )
     {
-        NSArray *identifiers = [NSArray arrayWithObjects: str_id];
+        NSArray *identifiers = @[str_id];
         
         UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
         [center removePendingNotificationRequestsWithIdentifiers:identifiers];
@@ -121,3 +118,4 @@ void ClearLocalNotification()
         [[UIApplication sharedApplication] cancelAllLocalNotifications];
     }
 }
+
