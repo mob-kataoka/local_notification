@@ -32,7 +32,7 @@ public class LocalNotificationReceiver extends BroadcastReceiver{
 
         // 通知タップで起動するIntent
         Intent clickIntent = new Intent(context, UnityPlayer.currentActivity.getClass())
-                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                .setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
         PendingIntent contentIntent = PendingIntent.getActivity(context, notificationId, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
 
         final PackageManager pm = context.getPackageManager();
@@ -52,12 +52,13 @@ public class LocalNotificationReceiver extends BroadcastReceiver{
                 .setContentIntent(contentIntent)
                 .setTicker(title)
                 .setSmallIcon(appIconResId)
-                .setContentTitle(title)
-                .setContentText(message)
                 .setLargeIcon(largeIcon)
-                .setWhen(System.currentTimeMillis())
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setAutoCancel(true)
+                .setOnlyAlertOnce(true)              // 一度だけ通知する.
+                .setContentTitle(title)              // メッセージタイトル.
+                .setContentText(message)             // メッセージ本文.
+                .setWhen(System.currentTimeMillis()) // 通知受信時間.
                 .build();
 
         NotificationManager manager = (NotificationManager) context.getSystemService(Service.NOTIFICATION_SERVICE);
