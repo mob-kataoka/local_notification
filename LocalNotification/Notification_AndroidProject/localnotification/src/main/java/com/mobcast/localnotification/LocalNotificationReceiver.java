@@ -35,6 +35,7 @@ public class LocalNotificationReceiver extends BroadcastReceiver{
                 .setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
         PendingIntent contentIntent = PendingIntent.getActivity(context, notificationId, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
 
+        // アイコン取得.
         final PackageManager pm = context.getPackageManager();
         ApplicationInfo applicationInfo = null;
         try
@@ -48,6 +49,7 @@ public class LocalNotificationReceiver extends BroadcastReceiver{
         final int appIconResId = applicationInfo.icon;
         Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), appIconResId);
 
+        // 通知データ作成.
         Notification notification = new NotificationCompat.Builder(context)
                 .setContentIntent(contentIntent)
                 .setTicker(title)
@@ -58,7 +60,7 @@ public class LocalNotificationReceiver extends BroadcastReceiver{
                 .setOnlyAlertOnce(true)              // 一度だけ通知する.
                 .setContentTitle(title)              // メッセージタイトル.
                 .setContentText(message)             // メッセージ本文.
-                .setWhen(System.currentTimeMillis()) // 通知受信時間.
+                .setWhen(System.currentTimeMillis()) // 受信時間.
                 .build();
 
         NotificationManager manager = (NotificationManager) context.getSystemService(Service.NOTIFICATION_SERVICE);
