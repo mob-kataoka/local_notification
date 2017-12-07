@@ -14,11 +14,26 @@ void Initialize()
     // iOS8以上であれば、通知許可の可否を問う.
     if(floor( NSFoundationVersionNumber ) >= NSFoundationVersionNumber_iOS_8_0)
     {
-        // バッジ、サウンド、通知OK？.
-        UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
-        UIUserNotificationSettings *setting = [UIUserNotificationSettings settingsForTypes:types categories:nil];
-        // 設定ダイアログ.
-        [[UIApplication sharedApplication] registerUserNotificationSettings:setting];
+        if(floor(NSFoundationVersionNumber) >= NSFoundationVersionNumber10_0)
+        {
+            UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+            [center requestAuthorizationWithOptions: (UNAuthorizationOptionBadge|UNAuthorizationOptionSound|UNAuthorizationOptionAlert|UNAuthorizationOptionCarPlay) completionHandler:^(BOOL granted, NSError * _Nullable error){
+                if (error) {
+                    // TODO エラー発生時の処理.
+                }
+                else {
+                    // TODO 正常終了時の処理.
+                }
+            }];
+        }
+        else
+        {
+            // バッジ、サウンド、通知OK？.
+            UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+            UIUserNotificationSettings *setting = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+            // 設定ダイアログ.
+            [[UIApplication sharedApplication] registerUserNotificationSettings:setting];
+        }
     }
 }
 
