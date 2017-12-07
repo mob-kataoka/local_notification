@@ -21,7 +21,5 @@
       <meta-data android:name="unityplayer.ForwardNativeEventsToDalvik" android:value="true" />
     </activity>
 
-    <!-- local notification -->
-    <receiver android:name="com.mobcast.localnotification.LocalNotificationReceiver" />
   </application>
 </manifest>
